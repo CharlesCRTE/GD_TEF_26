@@ -1,0 +1,22 @@
+<!doctype html><html lang=fr><head><meta charset=utf-8><link rel=stylesheet href=css/style.css></head>
+<body><div class=container><div class=card>
+<img class=logo src=assets/logo_gd.jpg>
+<h2>Questions</h2>
+<div class=q><b>Question 1</b><br>Est-ce que ça va ?
+<label><input type=radio name=q1 value=Oui> Oui</label>
+<label><input type=radio name=q1 value=Non> Non</label>
+<label><input type=radio name=q1 value=Peut-être> Peut-être</label></div>
+<div class=q><b>Question 2</b><br>Aimes-tu TEF ?
+<label><input type=radio name=q2 value=Oui> Oui</label>
+<label><input type=radio name=q2 value=Beaucoup> Beaucoup</label>
+<label><input type=radio name=q2 value=Non> Non</label></div>
+<div class=q><b>Question 3</b><br>Aimes-tu GD ?
+<label><input type=radio name=q3 value=Oui> Oui</label>
+<label><input type=radio name=q3 value=Beaucoup> Beaucoup</label>
+<label><input type=radio name=q3 value=CARREMEEEEEENT> CARREMEEEEEENT</label></div>
+<div class=actions><button class=btn onclick=go()>Valider</button></div>
+</div></div>
+<script>
+function v(n){return document.querySelector('input[name='+n+']:checked')?.value}
+function go(){const ok=v('q1')==='Oui'&&v('q2')==='Beaucoup'&&v('q3')==='CARREMEEEEEENT';const ctx=JSON.parse(sessionStorage.ctx);ctx.score=ok;sessionStorage.ctx=JSON.stringify(ctx);location.href='roue.html'}
+</script></body></html>

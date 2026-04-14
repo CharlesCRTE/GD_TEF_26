@@ -1,0 +1,14 @@
+<!doctype html><html lang=fr><head><meta charset=utf-8><link rel=stylesheet href=css/style.css></head>
+<body><div class=container><div class=card>
+<img class=logo src=assets/logo_gd.jpg>
+<h2>Numéro d’exploitation</h2>
+<input id=num placeholder="Ex : 59258057"><p id=rs></p><p id=msg></p>
+<div class=actions>
+<button class=btn onclick="valider(false)">Répondre aux questions</button>
+<button class=btn onclick="valider(true)">Passer les questions</button>
+</div></div></div>
+<script src=js/base.js></script>
+<script>
+num.oninput=()=>{const c=BASE.find(b=>b.numero===num.value);rs.textContent=c?('Raison sociale : '+c.raison):''}
+function valider(skip){const c=BASE.find(b=>b.numero===num.value);if(!c){msg.textContent='Numéro inconnu';return;}sessionStorage.ctx=JSON.stringify({numero:num.value,skip});location.href=skip?'roue.html':'questions.html'}
+</script></body></html>
