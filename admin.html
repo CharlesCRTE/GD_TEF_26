@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Admin – Suivi des participants</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      color: #0a0f2c;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background: #d4af37;
+      color: #0a0f2c;
+      font-weight: bold;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="card">
+    <img src="assets/logo_gd.jpg" class="logo" alt="Genes Diffusion">
+
+    <h2>Suivi des participants</h2>
+
+    <div class="top-actions">
+      <p><b id="count">0</b> participation(s)</p>
+      <button class="btn" onclick="exportCSV()">Exporter en CSV</button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Numéro d’exploitation</th>
+          <th>Raison sociale</th>
+          <th>Date</th>
+          <th>Heure</th>
+          <th>Gain remporté</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+
+  </div>
+</div>
+
+<script>
+  const data = JSON.parse(localStorage.getItem("recaps") || "[]");
+  document.getElementById("count").innerText = data.length;
+
+  const tbody = document.getElementById("tbody");
+
+  data.forEach(r => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.numero}</td>
+      <td>${r.raison}</td>
+      <td>${r.date}</td>
+      <td>${r.heure}</td>
+      <td>${r.gain}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  function exportCSV() {
+    if (!data.length) {
+      alert("Aucune donnée à exporter");
+      return;
+    }
+
+    const headers = [
+      "Numéro d’exploitation",
+      "Raison sociale",
+      "Date",
+      "Heure",
+      "Gain"
+    ];
+
+    const rows = data.map(r => [
+      r.numero,
+      r.raison,
+      r.date,
+      r.heure,
+      r.gain
+    ]);
+
+    let csv = headers.join(";") + "\n";
+    rows.forEach(row => {
+      csv += row.join(";") + "\n";
+    });
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "suivi_participants_GD.csv";
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+</script>
+
+</body>
+</html>
